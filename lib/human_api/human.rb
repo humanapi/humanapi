@@ -14,19 +14,21 @@ module HumanApi
 
 		# The available methods for this api
 		AVAILABLE_METHODS = [
-							:profile, 
-							:activities, 
-							:blood_glucose, 
-							:blood_oxygen, 
-							:blood_pressure, 
-							:body_fat, 
-							:genetic_traits, 
-							:heart_rate, 
-							:height, 
-							:locations, 
-							:sleeps, 
-							:weight, 
-							:bmi
+							:profile,
+							:activities,
+							:blood_glucose,
+							:blood_oxygen,
+							:blood_pressure,
+							:body_fat,
+							:genetic_traits,
+							:heart_rate,
+							:height,
+							:locations,
+							:sleeps,
+							:weight,
+							:bmi,
+              :sources,
+              :human
 							]
 
 		def initialize(options)
@@ -64,6 +66,8 @@ module HumanApi
 				else
 					if options[:summary] == true
 						url += "/summary"
+					elsif options[:summaries] == true
+						url +/ "/summaries"
 					end
 				end
 
@@ -73,8 +77,18 @@ module HumanApi
 					url += "/daily/#{options[:date]}"
 				# If you passed an id
 				elsif options[:id].present?
-					# Make a request for a single 
+					# Make a request for a single
 					url += "/#{options[:id]}"
+				end
+
+				if options[:updated_since].present?
+					updated_since = options[:updated_since]
+
+					if updated_since.class == 'Date'
+						updated_since = updated_since.strftime("%Y%m%dT%H%M%S%z")
+					end
+
+					url += "?updated_since=" + updated_since
 				end
 
 				# Make the request finally

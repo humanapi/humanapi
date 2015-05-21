@@ -78,6 +78,8 @@ The query method is meant to ask whatever you want whenever you want. Here are s
 :sleeps
 :weight
 :bmi
+:sources
+:human
 ```
 Mixin' up these methods with some options will give you what you want. 
 ```ruby
